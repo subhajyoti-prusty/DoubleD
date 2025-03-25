@@ -1,0 +1,8 @@
+<div>
+    <div class="NgxEditor__Wrapper">
+        <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+        <ngx-editor [formControl]="richTextControl" [editor]="editor" [disabled]="false" [ngModel]="richText"
+            (ngModelChange)="onContentChange($event)">
+        </ngx-editor>
+    </div>
+</div>

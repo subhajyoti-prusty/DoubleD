@@ -1,0 +1,23 @@
+@if(showSpinner){
+<div class="loading-spinner">
+  <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
+</div>
+}
+
+<div class="">
+  <p-toast [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'500ms'"
+    [hideTransitionOptions]="'500ms'" [showTransformOptions]="'translateX(100%)'" [baseZIndex]="9996">
+  </p-toast>
+
+  @if(isLoggedIn){
+  <app-header></app-header>
+  }
+
+  <div class="content" [ngClass]="{ 'content-expanded': isSidebarOpen, 'app-body': isLoggedIn }">
+    <router-outlet></router-outlet>
+  </div>
+
+  @if(isLoggedIn){
+  <app-footer></app-footer>
+  }
+</div>

@@ -1,0 +1,23 @@
+<div class="header-container">
+  <p-menubar [model]="menuItems" class="menu-sec">
+    <ng-template pTemplate="start">
+      <div class="menu-sec">
+        <img [src]="appEnvConfigConstant.APP_LOGO_PATH" routerLink="/dashboard" alt="Logo" class="menu-logo" />
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="item" let-item let-root="root">
+      <a pRipple class="menu-item" (click)="navigateRoute(item)">
+        <span [class]="item.icon"></span>
+        <span class="ml-2">{{ item.label }}</span>
+        <span *ngIf="item.shortcut" class="shortcut-tag">{{ item.shortcut }}</span>
+        <i *ngIf="item.items" class="pi"
+          [ngClass]="{ 'pi-angle-down ml-2': root, 'pi-angle-right ml-auto': !root }"></i>
+      </a>
+    </ng-template>
+
+    <ng-template pTemplate="end">
+      <p-button (click)="logout()" icon="pi pi-sign-out" class="logout-btn"></p-button>
+    </ng-template>
+  </p-menubar>
+</div>
