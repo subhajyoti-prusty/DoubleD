@@ -5,15 +5,29 @@ interface AuthRequest extends Request {
     user?: any;
 }
 
+// Middleware to verify JWT token
 export const authenticateUser = (req: AuthRequest, res: Response, next: NextFunction) => {
     const token = req.header("Authorization")?.split(" ")[1];
-    if (!token) return res.status(401).json({ message: "Unauthorized" });
+
+    if (!token) {
+        return res.status(401).json({ message: "Unauthorized: No token provided" });
+    }
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
         req.user = decoded;
         next();
-    } catch (error) {
-        res.status(401).json({ message: "Invalid token" });
+    } catch (err) {
+        return res.status(401).json({ message: "Unauthorized: Invalid token" });
     }
+};
+
+// Middleware to check user roles
+export const authorizeRole = (roles: string[]) => {
+    return (req: AuthRequest, res: Response, next: NextFunction) => {
+        if (!req.user || !roles.includes(req.user.role)) {
+            return res.status(403).json({ message: "Forbidden: Access denied" });
+        }
+        next();
+    };
 };
