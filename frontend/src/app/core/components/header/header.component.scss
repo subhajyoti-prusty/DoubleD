@@ -1,0 +1,67 @@
+:host ::ng-deep .p-menubar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 0;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: all 0.3s ease-in-out;
+}
+
+.menu-sec {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.menu-logo {
+  height: 50px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.menu-logo:hover {
+  transform: scale(1.1);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 18px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #495057;
+  border-radius: 6px;
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.menu-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #3144b5;
+}
+
+.shortcut-tag {
+  margin-left: auto;
+  padding: 4px 8px;
+  border-radius: 5px;
+  background: #f1f1f1;
+  font-size: 12px;
+}
+
+.logout-btn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: #495057;
+  transition: color 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+.logout-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #ff4d4d;
+}

@@ -1,0 +1,90 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  background-image: url("../../../assets/images/ERP-background.jpg");
+  background-size: cover;
+  background-position: center;
+  backdrop-filter: blur(5px);
+}
+
+.container {
+  width: 100%;
+  max-width: 450px;
+  padding: 0 1rem;
+}
+
+:host ::ng-deep .p-card {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.logo {
+  height: 60px;
+  width: auto;
+  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.2));
+}
+
+.field {
+  margin-bottom: 16px;
+}
+
+.custom-form-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.forgot-password {
+  margin-top: 5px;
+}
+
+.forgot-password-link {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  text-decoration: none;
+  transition: 0.3s;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline;
+  color: #ffcc00;
+}
+
+:host ::ng-deep .p-button.custom-form-submit-btn {
+  width: 100%;
+  background: linear-gradient(to right, #007bff, #0056b3);
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+:host ::ng-deep .p-button.custom-form-submit-btn:hover {
+  background: linear-gradient(to right, #0056b3, #003d82);
+}
+
+@media (max-width: 480px) {
+  .container {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+
+  :host ::ng-deep .p-card {
+    padding: 1.5rem;
+  }
+}

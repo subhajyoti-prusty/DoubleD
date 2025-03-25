@@ -1,0 +1,66 @@
+.app-body {
+  padding: 2rem;
+  margin-top: 4.5rem;
+  margin-bottom: 2rem;
+  background-color: #fafafa;
+}
+
+.loading-spinner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.spinner {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Base styles */
+.main-content {
+  padding: 20px;
+  transition: margin-left 0.3s, width 0.3s;
+}
+
+/* header.component.css */
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #fff; /* Background color of the header */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional shadow for better visibility */
+  z-index: 1000; /* Ensure it sits above other content */
+}
+
+.header-content {
+  padding: 1rem; /* Adjust as needed */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Optional: add some margin to the top of the main content to avoid overlap */
+body {
+  margin-top: 60px; /* Adjust based on the header's height */
+}
+
+
+
+

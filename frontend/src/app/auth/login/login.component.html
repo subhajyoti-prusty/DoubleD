@@ -1,0 +1,55 @@
+<div class="wrapper">
+  <div class="container">
+    <p-card class="lg-card">
+      <!-- Logo Section -->
+      <div class="text-center">
+        <span class="inline-flex align-items-center gap-2">
+          <img alt="logo" src="../../../assets/logo/tetra-edu-logo.png" class="logo" />
+        </span>
+      </div>
+
+      <!-- Login Form -->
+      <form [formGroup]="loginForm" (ngSubmit)="onLoginFormSubmitted($event)">
+        <div>
+          <div class="field">
+            <label for="userName" class="custom-form-label">User ID</label>
+            <input pInputText type="text" id="userName" formControlName="userName"
+              (blur)="loginForm.get('userName')?.markAsTouched()" placeholder="Enter UserID" />
+            @if(loginForm.get('userName')?.invalid &&
+            (loginForm.get('userName')?.dirty ||
+            loginForm.get('userName')?.touched)) {
+            <small class="form-field-err-msg">Username is required</small>
+            }
+          </div>
+
+          <div class="field">
+            <label for="password" class="custom-form-label">Password</label>
+            <p-password type="text" id="password" formControlName="password" [feedback]="false" [toggleMask]="true"
+              (blur)="loginForm.get('password')?.markAsTouched()" placeholder="Enter Password"/>
+            @if(loginForm.get('password')?.invalid &&
+            (loginForm.get('password')?.dirty ||
+            loginForm.get('password')?.touched)) {
+            <small class="form-field-err-msg">Password is required</small>
+            }
+          </div>
+
+          <!-- Forgot Password -->
+          <div class="text-right">
+            <div class="forgot-password">
+              <a (click)="redirectToForgotPassword()" class="forgot-password-link">Forgot Password?</a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Sign In Button -->
+        <div class="text-center">
+          <div class="mt-5">
+            <p-button type="submit" label="SIGN IN" class="custom-btn custom-form-submit-btn lg-btn"
+              [raised]="true"></p-button>
+          </div>
+        </div>
+      </form>
+    </p-card>
+  </div>
+</div>
