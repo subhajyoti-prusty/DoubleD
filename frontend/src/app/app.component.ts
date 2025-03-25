@@ -12,20 +12,20 @@ import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Rout
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
-  title = 'edtech-core';
+  title = 'Disaster Relief Management';
 
   showSpinner = false;
   isSidebarOpen: boolean = false;
   private readonly subscription: Subscription = new Subscription();
   isLoggedIn: boolean = false;
 
-  constructor(private readonly loadingService: LoadingSpinnerService,
+  constructor(
+    private readonly loadingService: LoadingSpinnerService,
     private readonly sidebarService: SideMenuService,
     private readonly authService: AuthService,
     private readonly location: Location,
     private readonly router: Router
   ) {
-
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.loadingService.show();
@@ -47,7 +47,6 @@ export class AppComponent implements OnInit {
     this.authService.currentUser.subscribe(data => {
       this.isLoggedIn = data;
     });
-
   }
 
   ngOnInit(): void {
@@ -61,5 +60,4 @@ export class AppComponent implements OnInit {
   onToggleSidebar() {
     this.sidebarService.toggleSidebar();
   }
-
 }

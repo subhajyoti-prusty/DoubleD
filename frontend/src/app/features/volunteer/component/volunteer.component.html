@@ -1,0 +1,15 @@
+<div class="volunteer-container">
+  <p-card header="Volunteer Registration">
+    <form [formGroup]="volunteerForm" (ngSubmit)="onSubmit()">
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" pInputText formControlName="email" placeholder="Enter your email">
+      </div>
+      <div class="field">
+        <label for="location">Preferred Location</label>
+        <input id="location" type="text" pInputText formControlName="location" placeholder="Enter your preferred location">
+      </div>
+      <p-button type="submit" label="Register" [disabled]="!volunteerForm.valid"></p-button>
+    </form>
+  </p-card>
+</div> 

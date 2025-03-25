@@ -1,0 +1,33 @@
+.volunteer-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.field {
+  margin-bottom: 20px;
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+  }
+
+  input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+}
+
+:host ::ng-deep {
+  .p-card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .p-button {
+    width: 100%;
+    margin-top: 20px;
+  }
+} 
