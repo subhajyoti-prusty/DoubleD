@@ -1,4 +1,12 @@
 {
+  "name": "doubled",
+  "version": "1.0.0",
+  "description": "Disaster Response Management System",
+  "scripts": {
+    "start": "cd backend && npm start",
+    "dev": "cd backend && npm run dev",
+    "install-all": "npm install && cd backend && npm install"
+  },
   "dependencies": {
     "@types/socket.io": "^3.0.1",
     "socket.io": "^4.8.1"

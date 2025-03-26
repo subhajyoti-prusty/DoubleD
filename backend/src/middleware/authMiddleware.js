@@ -1,12 +1,7 @@
-import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
-
-interface AuthRequest extends Request {
-    user?: any;
-}
+const jwt = require("jsonwebtoken");
 
 // Middleware to verify JWT token
-export const authenticateUser = (req: AuthRequest, res: Response, next: NextFunction) => {
+const authenticateUser = (req, res, next) => {
     const token = req.header("Authorization")?.split(" ")[1];
 
     if (!token) {
@@ -14,7 +9,7 @@ export const authenticateUser = (req: AuthRequest, res: Response, next: NextFunc
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decoded;
         next();
     } catch (err) {
@@ -23,11 +18,13 @@ export const authenticateUser = (req: AuthRequest, res: Response, next: NextFunc
 };
 
 // Middleware to check user roles
-export const authorizeRole = (roles: string[]) => {
-    return (req: AuthRequest, res: Response, next: NextFunction) => {
+const authorizeRole = (roles) => {
+    return (req, res, next) => {
         if (!req.user || !roles.includes(req.user.role)) {
             return res.status(403).json({ message: "Forbidden: Access denied" });
         }
         next();
     };
 };
+
+module.exports = { authenticateUser, authorizeRole };
