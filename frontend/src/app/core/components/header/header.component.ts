@@ -30,13 +30,41 @@ export class HeaderComponent implements OnInit {
         icon: 'pi pi-home',
         link: 'dashboard'
       },
+      {
+        label: 'Admin',
+        icon: 'pi pi-user',
+        link: 'admin'
+      },
+      {
+        label: 'News',
+        icon: 'pi pi-newspaper',
+        link: 'news'
+      },
+      {
+        label: 'Maps',
+        icon: 'pi pi-map',
+        link: 'maps'
+      },
+      {
+        label: 'Volunteers',
+        icon: 'pi pi-users',
+        link: 'volunteers'
+      },
+      {
+        label: 'Resource Management',
+        icon: 'pi pi-briefcase',
+        link: 'resource-management'
+      }
     ]
+  }
+
+  sideMenu() {
+    this.sidebarVisible = !this.sidebarVisible;
   }
 
   navigateRoute(item: any) {
     if (item?.link) this.router.navigateByUrl(item.link);
   }
-
 
   logout() {
     this.authService.logout();

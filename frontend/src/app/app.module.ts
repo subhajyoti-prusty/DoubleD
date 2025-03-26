@@ -10,11 +10,13 @@ import { ErrorInterceptor } from './core/interceptor/http-error.interceptor';
 import { AuthInterceptor } from './core/interceptor/auth.interceptor';
 import { LoginComponent } from './auth/login/login.component';
 import { AuthService } from './core/service/auth.service';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,40 @@
+.volunteer-container {
+    h1 {
+        margin: 0;
+        color: var(--primary-color);
+    }
+}
+
+.field {
+    margin-bottom: 1.5rem;
+    
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--text-color);
+    }
+}
+
+:host ::ng-deep {
+    .p-datatable {
+        .p-datatable-header {
+            background: transparent;
+            border: none;
+            padding: 1rem 0;
+        }
+    }
+
+    .p-dialog {
+        .p-dialog-content {
+            padding: 2rem;
+        }
+    }
+
+    .p-multiselect {
+        width: 100%;
+    }
+
+    .p-dropdown {
+        width: 100%;
+    }
+}
