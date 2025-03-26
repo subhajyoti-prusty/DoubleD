@@ -1,1 +1,106 @@
 <p>volunteer works!</p>
+<div class="volunteer-container p-4">
+    <div class="flex justify-content-between align-items-center mb-4">
+        <h1>Volunteer Management</h1>
+        <p-button label="Add Volunteer" icon="pi pi-plus" (onClick)="showAddDialog()"></p-button>
+    </div>
+
+    <p-table [value]="volunteers" [paginator]="true" [rows]="rows" [totalRecords]="totalRecords" [first]="first"
+        [showCurrentPageReport]="true" responsiveLayout="scroll" 
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} volunteers"
+        [rowsPerPageOptions]="[10,25,50]" [loading]="loading" [globalFilterFields]="['firstName','lastName','email']"
+        [tableStyle]="{'min-width': '75rem'}" styleClass="p-datatable-striped" (onPage)="onPage($event)">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Name</th>
+                <th>Contact</th>
+                <th>Skills</th>
+                <th>Availability</th>
+                <th>Status</th>
+                <th>Registration Date</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-volunteer>
+            <tr>
+                <td>{{volunteer.firstName}} {{volunteer.lastName}}</td>
+                <td>
+                    <div>{{volunteer.email}}</div>
+                    <div>{{volunteer.phone}}</div>
+                </td>
+                <td>
+                    <p-chip *ngFor="let skill of volunteer.skills" [label]="skill" class="mr-1"></p-chip>
+                </td>
+                <td>{{volunteer.availability}}</td>
+                <td>
+                    <p-tag [value]="volunteer.status" [severity]="volunteer.status === 'active' ? 'success' : 'danger'"></p-tag>
+                </td>
+                <td>{{volunteer.registrationDate | date:'medium'}}</td>
+                <td>
+                    <p-button icon="pi pi-pencil" class="p-button-rounded p-button-text mr-2" (onClick)="showEditDialog(volunteer)"></p-button>
+                    <p-button icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger" (onClick)="deleteVolunteer(volunteer)"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="7" class="text-center">No volunteers found</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <p-dialog [(visible)]="displayDialog" [header]="selectedVolunteer ? 'Edit Volunteer' : 'Add Volunteer'" [modal]="true" [style]="{width: '50vw'}"
+        [draggable]="false" [resizable]="false">
+        <form [formGroup]="volunteerForm" class="p-fluid">
+            <div class="field">
+                <label for="firstName">First Name</label>
+                <input id="firstName" type="text" pInputText formControlName="firstName">
+                <small class="p-error" *ngIf="volunteerForm.get('firstName')?.invalid && volunteerForm.get('firstName')?.touched">
+                    First name is required
+                </small>
+            </div>
+            <div class="field">
+                <label for="lastName">Last Name</label>
+                <input id="lastName" type="text" pInputText formControlName="lastName">
+                <small class="p-error" *ngIf="volunteerForm.get('lastName')?.invalid && volunteerForm.get('lastName')?.touched">
+                    Last name is required
+                </small>
+            </div>
+            <div class="field">
+                <label for="email">Email</label>
+                <input id="email" type="email" pInputText formControlName="email">
+                <small class="p-error" *ngIf="volunteerForm.get('email')?.invalid && volunteerForm.get('email')?.touched">
+                    Please enter a valid email
+                </small>
+            </div>
+            <div class="field">
+                <label for="phone">Phone</label>
+                <input id="phone" type="text" pInputText formControlName="phone">
+                <small class="p-error" *ngIf="volunteerForm.get('phone')?.invalid && volunteerForm.get('phone')?.touched">
+                    Phone number is required
+                </small>
+            </div>
+            <div class="field">
+                <label for="skills">Skills</label>
+                <p-multiSelect id="skills" [options]="skills" formControlName="skills" [defaultLabel]="'Select Skills'"></p-multiSelect>
+            </div>
+            <div class="field">
+                <label for="availability">Availability</label>
+                <p-dropdown id="availability" [options]="['Weekdays', 'Weekends', 'Both']" formControlName="availability"></p-dropdown>
+                <small class="p-error" *ngIf="volunteerForm.get('availability')?.invalid && volunteerForm.get('availability')?.touched">
+                    Please select availability
+                </small>
+            </div>
+            <div class="field">
+                <label for="status">Status</label>
+                <p-dropdown id="status" [options]="['active', 'inactive']" formControlName="status"></p-dropdown>
+            </div>
+        </form>
+        <ng-template pTemplate="footer">
+            <p-button label="Cancel" icon="pi pi-times" class="p-button-text" (onClick)="displayDialog = false"></p-button>
+            <p-button label="Save" icon="pi pi-check" (onClick)="saveVolunteer()" [disabled]="!volunteerForm.valid"></p-button>
+        </ng-template>
+    </p-dialog>
+
+    <p-toast></p-toast>
+</div>
