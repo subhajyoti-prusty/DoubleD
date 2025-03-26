@@ -31,100 +31,30 @@ export class HeaderComponent implements OnInit {
         link: 'dashboard'
       },
       {
-        label: 'Leave Application',
-        icon: 'pi pi-file-edit',
-        items: [
-          {
-            label: 'Apply Leave',
-            icon: 'pi pi-file-edit',
-            link: '/leave-application/add-leave'
-          },
-          {
-            label: 'View Leave',
-            icon: 'pi pi-file',
-            link: '/leave-application/view-leave',
-          },
-        ]
-      },
-      {
-        label: 'Employee Information',
+        label: 'Admin',
         icon: 'pi pi-user',
-        items: [
-          {
-            label: 'Create Employee',
-            icon: 'pi pi-user-plus',
-            link: '/employee/add-employee'
-          },
-          {
-            label: 'Edit Employee',
-            icon: 'pi pi-user-edit',
-            link: '/employee/edit-employee',            
-          },
-          {
-            label: 'View Employee',
-            icon: 'pi pi-users',
-            link: '/employee/view-employee',
-          },
-        ]
+        link: 'admin'
       },
       {
-        label: 'Employee Attendance',
-        icon: 'pi pi-check-circle',
-        link: 'employee-attendance'
+        label: 'News',
+        icon: 'pi pi-newspaper',
+        link: 'news'
       },
       {
-        label: 'Hostel Management',
-        icon: 'pi pi-building',
-        items:[
-          {
-            label:'Hostel Management',
-            icon: 'pi pi-circle-on',
-            link: '/hostel-seat/hostel',
-          },
-          {
-            label:'Floor Management',
-            icon: 'pi pi-circle-on',
-            link: '/hostel-seat/floor',
-          },
-          {
-            label:'Room Management',
-            icon: 'pi pi-circle-on',
-            link: '/hostel-seat/room',
-          },
-          {
-            label:'Bed Management',
-            icon: 'pi pi-circle-on',
-            link: '/hostel-seat/bed',
-          },
-          {
-            label:'View All Details',
-            icon: 'pi pi-circle-on',
-            link: '/hostel-seat/view-all',
-          }
-        ]
+        label: 'Maps',
+        icon: 'pi pi-map',
+        link: 'maps'
       },
-      // {
-      //   label: 'Student Admission',
-      //   icon: 'pi pi-user',
-      //   items: [
-      //     {
-      //       label: '',
-      //       icon: 'pi pi-user-plus',
-      //       link: ''
-      //     },
-      //     {
-      //       label: '',
-      //       icon: 'pi pi-user-edit',
-      //       link: '',            
-      //     },
-      //     {
-      //       label: '',
-      //       icon: 'pi pi-users',
-      //       link: '',
-      //     },
-      //   ]
-      // },
-      
+      {
+        label: 'Volunteers',
+        icon: 'pi pi-users',
+        link: 'volunteers'
+      },
+      {
+        label: 'Resource Management',
+        icon: 'pi pi-briefcase',
+        link: 'resource-management'
+      }
     ]
   }
 

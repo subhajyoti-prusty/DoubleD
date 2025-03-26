@@ -13,6 +13,26 @@ const routes: Routes = [
     path: 'dashboard',
     loadChildren: () => import('./core/page/dashboard/dashboard.module').then(m => m.DashboardModule), canActivate: [AuthGuard]
   },
+  {
+    path: 'admin',
+    loadChildren: () => import('./features/admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuard]
+  },
+  {
+    path: 'news',
+    loadChildren: () => import('./features/news/news.module').then(m => m.NewsModule), canActivate: [AuthGuard]
+  },
+  {
+    path: 'maps',
+    loadChildren: () => import('./features/maps/maps.module').then(m => m.MapsModule), canActivate: [AuthGuard]
+  },
+  {
+    path: 'volunteers',
+    loadChildren: () => import('./features/volunteer/volunteer.module').then(m => m.VolunteerModule), canActivate: [AuthGuard]
+  },
+  {
+    path: 'resource-management',
+    loadChildren: () => import('./features/resource-management/resource-management.module').then(m => m.ResourceManagementModule), canActivate: [AuthGuard]
+  },
 
   {
     path: '**',
