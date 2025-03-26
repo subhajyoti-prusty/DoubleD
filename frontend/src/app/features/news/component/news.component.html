@@ -1,0 +1,18 @@
+<div class="news-container">
+  <h2>Latest Disaster News</h2>
+  <div class="news-grid">
+    <p-card *ngFor="let item of newsItems" class="news-card">
+      <ng-template pTemplate="header">
+        <div class="news-header">
+          <p-badge [value]="item.severity" [severity]="getSeverityClass(item.severity)"></p-badge>
+          <span class="news-date">{{item.date}}</span>
+        </div>
+      </ng-template>
+      <h3>{{item.title}}</h3>
+      <p>{{item.description}}</p>
+      <ng-template pTemplate="footer">
+        <span class="news-footer">Source: {{item.source}}</span>
+      </ng-template>
+    </p-card>
+  </div>
+</div> 

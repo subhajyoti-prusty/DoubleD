@@ -8,13 +8,11 @@ import { CoreModule } from "./core/core.module";
 import { SharedModule } from './shared/shared.module';
 import { ErrorInterceptor } from './core/interceptor/http-error.interceptor';
 import { AuthInterceptor } from './core/interceptor/auth.interceptor';
-import { LoginComponent } from './auth/login/login.component';
 import { AuthService } from './core/service/auth.service';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LoginComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -26,16 +24,15 @@ import { AuthService } from './core/service/auth.service';
   providers: [
     provideClientHydration(),
     provideHttpClient(withInterceptorsFromDi()),
+    AuthService,
     {
       provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true,
     },
     {
       provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true,
-    },
-    AuthService
+    }
   ],
   //schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
-
 })
 export class AppModule { }
