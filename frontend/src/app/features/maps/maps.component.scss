@@ -1,0 +1,338 @@
+.maps-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f8f9fa;
+  padding: 20px;
+}
+
+.map-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.map-header h1 {
+  margin: 0;
+  color: #333;
+  font-weight: bold;
+}
+
+.map-filters {
+  display: flex;
+  gap: 15px;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  padding: 8px 15px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn.active {
+  background-color: #e6f2ff;
+  border-color: #0056b3;
+}
+
+.filter-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  border-radius: 50%;
+}
+
+.disaster-icon {
+  background-color: #dc3545;
+}
+
+.resource-icon {
+  background-color: #198754;
+}
+
+.volunteer-icon {
+  background-color: #0d6efd;
+}
+
+.filter-label {
+  font-weight: 500;
+  color: #555;
+}
+
+.map-content {
+  display: flex;
+  flex: 1;
+  gap: 20px;
+  min-height: 0;
+}
+
+.map-view {
+  flex: 2;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.map-placeholder {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #eee;
+  text-align: center;
+}
+
+.map-placeholder h3 {
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.map-placeholder p {
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.marker-list {
+  width: 100%;
+  max-width: 500px;
+  text-align: left;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 15px;
+  border-radius: 4px;
+}
+
+.marker-list h4 {
+  margin-top: 0;
+  color: #333;
+}
+
+.marker-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.marker-list li {
+  padding: 8px 10px;
+  margin-bottom: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-left: 4px solid transparent;
+}
+
+.marker-list li:hover {
+  background-color: #f5f5f5;
+}
+
+.marker-list li.selected {
+  background-color: #e6f2ff;
+}
+
+.marker-list li.disaster {
+  border-left-color: #dc3545;
+}
+
+.marker-list li.resource {
+  border-left-color: #198754;
+}
+
+.marker-list li.volunteer {
+  border-left-color: #0d6efd;
+}
+
+.map-sidebar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 400px;
+}
+
+.map-info-panel, .nearby-resources {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.map-info-panel h2, .nearby-resources h3 {
+  margin-top: 0;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.no-selection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  color: #777;
+}
+
+.marker-details h3 {
+  margin-top: 0;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.marker-type-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.marker-type-badge.disaster {
+  background-color: #f8d7da;
+  color: #842029;
+}
+
+.marker-type-badge.resource {
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+
+.marker-type-badge.volunteer {
+  background-color: #cfe2ff;
+  color: #084298;
+}
+
+.marker-status {
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.marker-status span {
+  display: inline-block;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+.marker-status .active, .marker-status .operational, .marker-status .available {
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+
+.marker-status .monitoring, .marker-status .deployed {
+  background-color: #fff3cd;
+  color: #664d03;
+}
+
+.marker-description {
+  margin-bottom: 15px;
+  line-height: 1.5;
+  color: #555;
+}
+
+.marker-coordinates {
+  font-family: monospace;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.marker-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background-color: #0056b3;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #004494;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+.nearby-resources {
+  flex: 1;
+}
+
+.resource-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.resource-item {
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  background-color: #f8f9fa;
+  border-left: 4px solid #198754;
+}
+
+.resource-name {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.resource-distance {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 5px;
+}
+
+.resource-status {
+  display: inline-block;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.resource-status.available {
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+
+.resource-status.deployed {
+  background-color: #fff3cd;
+  color: #664d03;
+}
+
+.resource-status.full {
+  background-color: #f8d7da;
+  color: #842029;
+}
+
+@media (max-width: 992px) {
+  .map-content {
+    flex-direction: column;
+  }
+  
+  .map-sidebar {
+    max-width: none;
+  }
+}

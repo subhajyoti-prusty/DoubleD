@@ -1,1 +1,105 @@
-<p>maps works!</p>
+<div class="maps-container">
+  <div class="map-header">
+    <h1>Disaster & Resource Map</h1>
+    <div class="map-filters">
+      <div class="filter-btn" 
+           [class.active]="mapFilters.showDisasters"
+           (click)="toggleFilter('showDisasters')">
+        <span class="filter-icon disaster-icon"></span>
+        <span class="filter-label">Disasters</span>
+      </div>
+      <div class="filter-btn" 
+           [class.active]="mapFilters.showResources"
+           (click)="toggleFilter('showResources')">
+        <span class="filter-icon resource-icon"></span>
+        <span class="filter-label">Resources</span>
+      </div>
+      <div class="filter-btn" 
+           [class.active]="mapFilters.showVolunteers"
+           (click)="toggleFilter('showVolunteers')">
+        <span class="filter-icon volunteer-icon"></span>
+        <span class="filter-label">Volunteers</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="map-content">
+    <div class="map-view">
+      <!-- Google Maps integration will be added here -->
+      <div class="map-placeholder">
+        <h3>Google Maps integration will be added here</h3>
+        <p>Once Google Maps API is integrated, this placeholder will be replaced with an interactive map displaying the markers.</p>
+        <div class="marker-list">
+          <h4>Currently showing {{ getFilteredMarkers().length }} points on the map:</h4>
+          <ul>
+            <li *ngFor="let marker of getFilteredMarkers()" 
+                [class]="marker.type" 
+                [class.selected]="selectedMarkerId === marker.id"
+                (click)="selectMarker(marker.id)">
+              {{ marker.name }} ({{ marker.lat.toFixed(2) }}, {{ marker.lng.toFixed(2) }})
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-sidebar">
+      <div class="map-info-panel">
+        <h2>Location Information</h2>
+        <div *ngIf="getSelectedMarker()" class="marker-details">
+          <h3>{{ getSelectedMarker()?.name }}</h3>
+          <div class="marker-type-badge" [ngClass]="getSelectedMarker()?.type">
+            {{ getSelectedMarker()?.type | titlecase }}
+          </div>
+          <div class="marker-status">
+            Status: <span [ngClass]="getSelectedMarker() && getSelectedMarker()!.status ? getSelectedMarker()!.status.toLowerCase().replace(' ', '-') : ''">
+              {{ getSelectedMarker()?.status }}
+            </span>
+          </div>
+          <p class="marker-description">
+            {{ getSelectedMarker()?.description }}
+          </p>
+          <div class="marker-coordinates">
+            Coordinates: {{ getSelectedMarker()!.lat.toFixed(4) }}, {{ getSelectedMarker()!.lng.toFixed(4) }}
+          </div>
+          <div class="marker-actions" *ngIf="getSelectedMarker()?.type === 'disaster'">
+            <button class="btn btn-primary">Assign Resources</button>
+            <button class="btn btn-secondary">Send Alert</button>
+          </div>
+          <div class="marker-actions" *ngIf="getSelectedMarker()?.type === 'resource'">
+            <button class="btn btn-primary">Update Stock</button>
+            <button class="btn btn-secondary">Request Supply</button>
+          </div>
+          <div class="marker-actions" *ngIf="getSelectedMarker()?.type === 'volunteer'">
+            <button class="btn btn-primary">Contact Team</button>
+            <button class="btn btn-secondary">Update Status</button>
+          </div>
+        </div>
+        <div *ngIf="!getSelectedMarker()" class="no-selection">
+          <p>Select a location on the map to view details</p>
+        </div>
+      </div>
+
+      <div class="nearby-resources" *ngIf="getSelectedMarker()?.type === 'disaster'">
+        <h3>Nearby Resources</h3>
+        <ul class="resource-list">
+          <li class="resource-item">
+            <div class="resource-name">Miami Supply Center</div>
+            <div class="resource-distance">32 miles away</div>
+            <div class="resource-status available">Available</div>
+          </li>
+          <li class="resource-item">
+            <div class="resource-name">Mobile Medical Unit</div>
+            <div class="resource-distance">18 miles away</div>
+            <div class="resource-status deployed">Deployed</div>
+          </li>
+          <li class="resource-item">
+            <div class="resource-name">Emergency Shelter</div>
+            <div class="resource-distance">5 miles away</div>
+            <div class="resource-status full">Full</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

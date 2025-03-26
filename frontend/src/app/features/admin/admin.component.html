@@ -1,1 +1,361 @@
-<p>admin works!</p>
+<div class="admin-container">
+  <h1 class="admin-title">Admin Dashboard</h1>
+  
+  <!-- Overview Stats -->
+  <div class="stats-container">
+    <div class="stat-card users">
+      <div class="stat-icon">
+        <i class="fa fa-users"></i>
+      </div>
+      <div class="stat-content">
+        <h3>Users</h3>
+        <div class="stat-value">{{ userSummary.total }}</div>
+        <div class="stat-breakdown">
+          <span>{{ userSummary.volunteers }} Volunteers</span>
+          <span>{{ userSummary.ngos }} NGOs</span>
+          <span>{{ userSummary.admins }} Admins</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="stat-card disasters">
+      <div class="stat-icon">
+        <i class="fa fa-exclamation-triangle"></i>
+      </div>
+      <div class="stat-content">
+        <h3>Disasters</h3>
+        <div class="stat-value">{{ disasterSummary.total }}</div>
+        <div class="stat-breakdown">
+          <span class="highlight-red">{{ disasterSummary.active }} Active</span>
+          <span class="highlight-yellow">{{ disasterSummary.monitoring }} Monitoring</span>
+          <span class="highlight-green">{{ disasterSummary.resolved }} Resolved</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="stat-card resources">
+      <div class="stat-icon">
+        <i class="fa fa-box"></i>
+      </div>
+      <div class="stat-content">
+        <h3>Resources</h3>
+        <div class="stat-value">{{ resourceSummary.total }}</div>
+        <div class="stat-breakdown">
+          <span>{{ resourceSummary.food }} Food</span>
+          <span>{{ resourceSummary.water }} Water</span>
+          <span>{{ resourceSummary.medical }} Medical</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Quick Actions -->
+  <div class="quick-actions">
+    <h2>Quick Actions</h2>
+    <div class="actions-row">
+      <button class="action-btn broadcast">
+        <i class="fa fa-bullhorn"></i>
+        Broadcast Alert
+      </button>
+      <button class="action-btn resources">
+        <i class="fa fa-truck"></i>
+        Allocate Resources
+      </button>
+      <button class="action-btn volunteers">
+        <i class="fa fa-user-plus"></i>
+        Manage Volunteers
+      </button>
+      <button class="action-btn reports">
+        <i class="fa fa-chart-bar"></i>
+        Generate Reports
+      </button>
+    </div>
+  </div>
+  
+  <!-- Recent Activity -->
+  <div class="recent-activity">
+    <div class="activity-header">
+      <h2>Recent Activity</h2>
+      <div class="activity-filter">
+        <span>Filter: </span>
+        <select>
+          <option value="all">All Activities</option>
+          <option value="users">User Activities</option>
+          <option value="alerts">Alerts</option>
+          <option value="resources">Resources</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="activity-list">
+      <div class="activity-item" *ngFor="let activity of recentActivities">
+        <div class="activity-time">
+          {{ activity.time | date:'short' }}
+        </div>
+        <div class="activity-user">
+          {{ activity.user }}
+        </div>
+        <div class="activity-action">
+          {{ activity.action }}
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Main Tabs -->
+  <div class="admin-tabs">
+    <div class="tab-header">
+      <div class="tab-item" [class.active]="activeTab === 'users'" (click)="changeTab('users')">Users</div>
+      <div class="tab-item" [class.active]="activeTab === 'disasters'" (click)="changeTab('disasters')">Disasters</div>
+      <div class="tab-item" [class.active]="activeTab === 'resources'" (click)="changeTab('resources')">Resources</div>
+      <div class="tab-item" [class.active]="activeTab === 'alerts'" (click)="changeTab('alerts')">Alerts</div>
+    </div>
+    
+    <div class="tab-content">
+      <!-- Users Tab -->
+      <div class="tab-pane" *ngIf="activeTab === 'users'">
+        <div class="tab-actions">
+          <button class="btn btn-primary">
+            <i class="fa fa-plus"></i> Add User
+          </button>
+          <div class="search-box">
+            <input type="text" placeholder="Search users...">
+            <i class="fa fa-search"></i>
+          </div>
+          <div class="filter-dropdown">
+            <select>
+              <option value="all">All Roles</option>
+              <option value="admin">Admins</option>
+              <option value="ngo">NGOs</option>
+              <option value="volunteer">Volunteers</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th *ngFor="let column of userTableColumns">{{ column }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of userTableData">
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                  <span class="badge" [ngClass]="user.role.toLowerCase()">{{ user.role }}</span>
+                </td>
+                <td>
+                  <span class="badge" [ngClass]="user.status.toLowerCase()">{{ user.status }}</span>
+                </td>
+                <td>{{ user.lastLogin | date:'medium' }}</td>
+                <td class="actions-cell">
+                  <button class="btn-icon edit" title="Edit User">
+                    <i class="fa fa-edit"></i>
+                  </button>
+                  <button class="btn-icon" 
+                          [ngClass]="user.status === 'Active' ? 'deactivate' : 'activate'"
+                          [title]="user.status === 'Active' ? 'Deactivate User' : 'Activate User'"
+                          (click)="changeUserStatus(user.id, user.status === 'Active' ? 'Inactive' : 'Active')">
+                    <i class="fa" [ngClass]="user.status === 'Active' ? 'fa-ban' : 'fa-check'"></i>
+                  </button>
+                  <button class="btn-icon delete" title="Delete User" (click)="deleteUser(user.id)">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="pagination">
+          <button class="page-btn" disabled>
+            <i class="fa fa-chevron-left"></i>
+          </button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn">
+            <i class="fa fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Disasters Tab -->
+      <div class="tab-pane" *ngIf="activeTab === 'disasters'">
+        <div class="disaster-overview">
+          <div class="chart-container">
+            <h3>Disasters by Type</h3>
+            <div class="chart-placeholder">
+              <div class="pie-chart">
+                <div *ngFor="let item of chartData.disasterByType.labels; let i = index" 
+                     class="chart-label">
+                  <span class="color-box" [style.background-color]="'hsl('+(i*50)+', 70%, 60%)'"></span>
+                  <span>{{ item }}: {{ chartData.disasterByType.data[i] }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="disaster-stats">
+            <h3>Current Status</h3>
+            <div class="stat-row">
+              <div class="stat-label">Active</div>
+              <div class="stat-bar">
+                <div class="stat-bar-fill" 
+                     [style.width.%]="(disasterSummary.active / disasterSummary.total) * 100"
+                     style="background-color: #dc3545;">
+                </div>
+              </div>
+              <div class="stat-value">{{ disasterSummary.active }}</div>
+            </div>
+            <div class="stat-row">
+              <div class="stat-label">Monitoring</div>
+              <div class="stat-bar">
+                <div class="stat-bar-fill" 
+                     [style.width.%]="(disasterSummary.monitoring / disasterSummary.total) * 100"
+                     style="background-color: #ffc107;">
+                </div>
+              </div>
+              <div class="stat-value">{{ disasterSummary.monitoring }}</div>
+            </div>
+            <div class="stat-row">
+              <div class="stat-label">Resolved</div>
+              <div class="stat-bar">
+                <div class="stat-bar-fill" 
+                     [style.width.%]="(disasterSummary.resolved / disasterSummary.total) * 100"
+                     style="background-color: #28a745;">
+                </div>
+              </div>
+              <div class="stat-value">{{ disasterSummary.resolved }}</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="disaster-map">
+          <h3>Disaster Locations</h3>
+          <div class="map-placeholder">
+            <p>Interactive map showing all disaster locations will be displayed here</p>
+            <p>Use the Google Maps integration to implement this feature</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Resources Tab -->
+      <div class="tab-pane" *ngIf="activeTab === 'resources'">
+        <div class="resource-allocation">
+          <h3>Resource Allocation</h3>
+          <div class="chart-placeholder">
+            <div *ngFor="let item of chartData.resourceAllocation.labels; let i = index" 
+                 class="chart-bar">
+              <div class="chart-bar-label">{{ item }}</div>
+              <div class="chart-bar-container">
+                <div class="chart-bar-fill" 
+                     [style.height.%]="chartData.resourceAllocation.data[i]"
+                     [style.background-color]="'hsl('+(i*50)+', 70%, 60%)'">
+                </div>
+              </div>
+              <div class="chart-bar-value">{{ chartData.resourceAllocation.data[i] }}%</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="resource-summary">
+          <h3>Available Resources</h3>
+          <div class="summary-item">
+            <div class="summary-label">Food</div>
+            <div class="summary-value">{{ resourceSummary.food.toLocaleString() }} units</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">Water</div>
+            <div class="summary-value">{{ resourceSummary.water.toLocaleString() }} units</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">Medical</div>
+            <div class="summary-value">{{ resourceSummary.medical.toLocaleString() }} units</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">Shelter</div>
+            <div class="summary-value">{{ resourceSummary.shelter.toLocaleString() }} units</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">Other</div>
+            <div class="summary-value">{{ resourceSummary.other.toLocaleString() }} units</div>
+          </div>
+          <div class="summary-item total">
+            <div class="summary-label">Total</div>
+            <div class="summary-value">{{ resourceSummary.total.toLocaleString() }} units</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Alerts Tab -->
+      <div class="tab-pane" *ngIf="activeTab === 'alerts'">
+        <div class="alerts-form">
+          <h3>Send New Alert</h3>
+          <div class="form-group">
+            <label>Alert Message</label>
+            <textarea placeholder="Enter alert message..." rows="3" #alertMessage></textarea>
+          </div>
+          <div class="form-group">
+            <label>Recipients</label>
+            <div class="checkbox-group">
+              <label class="checkbox">
+                <input type="checkbox" checked> All Users
+              </label>
+              <label class="checkbox">
+                <input type="checkbox"> Volunteers Only
+              </label>
+              <label class="checkbox">
+                <input type="checkbox"> NGOs Only
+              </label>
+              <label class="checkbox">
+                <input type="checkbox"> Admins Only
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Priority</label>
+            <div class="radio-group">
+              <label class="radio">
+                <input type="radio" name="priority" value="low"> Low
+              </label>
+              <label class="radio">
+                <input type="radio" name="priority" value="medium" checked> Medium
+              </label>
+              <label class="radio">
+                <input type="radio" name="priority" value="high"> High
+              </label>
+              <label class="radio">
+                <input type="radio" name="priority" value="critical"> Critical
+              </label>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-primary" (click)="sendAlert(alertMessage.value)">
+              Send Alert
+            </button>
+          </div>
+        </div>
+        
+        <div class="alerts-history">
+          <h3>Recent Alerts</h3>
+          <div class="alerts-list">
+            <div class="alert-item" *ngFor="let alert of recentAlerts; let i = index">
+              <div class="alert-priority" [ngClass]="i % 4 === 0 ? 'critical' : i % 3 === 0 ? 'high' : i % 2 === 0 ? 'medium' : 'low'"></div>
+              <div class="alert-content">
+                <div class="alert-message">{{ alert }}</div>
+                <div class="alert-meta">
+                  <span class="alert-time">{{ i === 0 ? 'Just now' : i === 1 ? '5 minutes ago' : i === 2 ? '1 hour ago' : '1 day ago' }}</span>
+                  <span class="alert-recipients">All Users</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

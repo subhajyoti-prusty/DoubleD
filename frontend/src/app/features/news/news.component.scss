@@ -1,0 +1,634 @@
+.news-container {
+  padding: 20px;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+.page-title {
+  margin-bottom: 25px;
+  color: #333;
+  font-weight: bold;
+}
+
+/* News Controls */
+.news-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.search-box {
+  display: flex;
+  width: 100%;
+  max-width: 400px;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  font-size: 16px;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #0d6efd;
+}
+
+.search-btn {
+  padding: 0 15px;
+  background-color: #0d6efd;
+  color: white;
+  border: 1px solid #0d6efd;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.search-btn:hover {
+  background-color: #0b5ed7;
+}
+
+.category-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.category-filter label {
+  color: #555;
+  font-weight: 500;
+}
+
+.category-filter select {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  color: #333;
+  font-size: 16px;
+  min-width: 180px;
+}
+
+/* Loading Container */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #0d6efd;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-container p {
+  color: #666;
+  font-size: 16px;
+}
+
+/* Error Message */
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.error-message i {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.retry-btn {
+  margin-top: 15px;
+  padding: 8px 20px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.retry-btn:hover {
+  background-color: #c82333;
+}
+
+/* News Grid */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.no-results p {
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.clear-filters-btn {
+  padding: 8px 20px;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.clear-filters-btn:hover {
+  background-color: #5a6268;
+}
+
+/* News Card */
+.news-card {
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.news-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.news-image {
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.news-category, .news-relevance {
+  position: absolute;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.news-category {
+  top: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+}
+
+.news-category.hurricane {
+  background-color: #fd7e14;
+  color: white;
+}
+
+.news-category.flood {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.news-category.earthquake {
+  background-color: #6f42c1;
+  color: white;
+}
+
+.news-category.wildfire {
+  background-color: #dc3545;
+  color: white;
+}
+
+.news-category.drought {
+  background-color: #d63384;
+  color: white;
+}
+
+.news-category.tsunami {
+  background-color: #20c997;
+  color: white;
+}
+
+.news-relevance {
+  top: 10px;
+  right: 10px;
+  color: white;
+}
+
+.news-relevance.critical {
+  background-color: #dc3545;
+}
+
+.news-relevance.high {
+  background-color: #fd7e14;
+}
+
+.news-relevance.medium {
+  background-color: #ffc107;
+  color: #333;
+}
+
+.news-relevance.low {
+  background-color: #6c757d;
+}
+
+.news-content {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.news-title {
+  font-size: 18px;
+  color: #333;
+  margin: 0 0 10px 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.news-description {
+  color: #666;
+  margin-bottom: 15px;
+  font-size: 14px;
+  line-height: 1.5;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.news-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #777;
+  margin-top: auto;
+}
+
+.news-source {
+  font-weight: 500;
+}
+
+/* Article Detail Modal */
+.article-detail-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 8px;
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  background-color: #f8f9fa;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: background-color 0.2s;
+}
+
+.close-btn:hover {
+  background-color: #e9ecef;
+}
+
+.article-header {
+  padding: 30px 30px 20px;
+}
+
+.article-header h2 {
+  margin: 0 0 15px 0;
+  font-size: 24px;
+  color: #333;
+  line-height: 1.4;
+}
+
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 15px;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  color: #666;
+  font-size: 14px;
+}
+
+.meta-item i {
+  margin-right: 5px;
+}
+
+.article-badges {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.badge {
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.badge.category {
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+.badge.category.hurricane {
+  background-color: #fd7e14;
+  color: white;
+}
+
+.badge.category.flood {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.badge.category.earthquake {
+  background-color: #6f42c1;
+  color: white;
+}
+
+.badge.category.wildfire {
+  background-color: #dc3545;
+  color: white;
+}
+
+.badge.category.drought {
+  background-color: #d63384;
+  color: white;
+}
+
+.badge.category.tsunami {
+  background-color: #20c997;
+  color: white;
+}
+
+.badge.relevance {
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+.badge.relevance.critical {
+  background-color: #dc3545;
+  color: white;
+}
+
+.badge.relevance.high {
+  background-color: #fd7e14;
+  color: white;
+}
+
+.badge.relevance.medium {
+  background-color: #ffc107;
+  color: #333;
+}
+
+.badge.relevance.low {
+  background-color: #6c757d;
+  color: white;
+}
+
+.article-image {
+  height: 300px;
+  background-size: cover;
+  background-position: center;
+}
+
+.article-body {
+  padding: 30px;
+}
+
+.article-description {
+  font-size: 18px;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.article-content {
+  color: #555;
+  line-height: 1.8;
+  font-size: 16px;
+}
+
+.article-actions {
+  display: flex;
+  gap: 15px;
+  padding: 0 30px 30px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+.related-news {
+  padding: 30px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #eee;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.related-news h3 {
+  margin: 0 0 20px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.related-articles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.related-article {
+  background-color: white;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.related-article:hover {
+  transform: translateY(-3px);
+}
+
+.related-image {
+  height: 120px;
+  background-size: cover;
+  background-position: center;
+}
+
+.related-content {
+  padding: 10px;
+}
+
+.related-content h4 {
+  margin: 0 0 5px 0;
+  font-size: 14px;
+  color: #333;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.4;
+}
+
+.related-date {
+  font-size: 12px;
+  color: #777;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .news-controls {
+    flex-direction: column;
+  }
+  
+  .search-box, .category-filter {
+    width: 100%;
+  }
+  
+  .category-filter {
+    justify-content: space-between;
+  }
+  
+  .article-meta {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .article-image {
+    height: 200px;
+  }
+}
+
+/* Data Source Attribution */
+.data-source-info {
+  background-color: #f2f9ff;
+  border-radius: 8px;
+  padding: 10px 16px;
+  margin: 0 0 20px 0;
+  font-size: 14px;
+  color: #4a4a4a;
+  text-align: center;
+  border-left: 4px solid #0d6efd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.fallback-notice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.fallback-notice i {
+  color: #0d6efd;
+  font-size: 16px;
+}
+
+.api-attribution {
+  font-style: italic;
+}

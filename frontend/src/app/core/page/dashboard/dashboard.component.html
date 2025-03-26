@@ -1,1 +1,107 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+  <h1 class="dashboard-title">Disaster Management Dashboard</h1>
+  
+  <!-- Overview Cards -->
+  <div class="overview-cards">
+    <div class="card active-disasters">
+      <h3>Active Disasters</h3>
+      <div class="card-value">{{ getActiveDisastersCount() }}</div>
+    </div>
+    <div class="card volunteers">
+      <h3>Volunteers</h3>
+      <div class="card-value">{{ volunteers.registered }}</div>
+      <div class="card-subtitle">{{ volunteers.active }} active | {{ volunteers.onLocation }} on location</div>
+    </div>
+    <div class="card resources">
+      <h3>Resources Available</h3>
+      <div class="card-value">{{ getTotalResources() }}</div>
+      <div class="card-subtitle">across {{ resources.length }} categories</div>
+    </div>
+  </div>
+
+  <!-- Main Dashboard Content -->
+  <div class="dashboard-content">
+    <!-- Disaster List -->
+    <div class="disaster-list">
+      <h2>Recent Disasters</h2>
+      <div class="list-container">
+        <div *ngFor="let disaster of disasters" 
+             class="disaster-item" 
+             [class.active]="selectedDisaster?.id === disaster.id"
+             (click)="selectDisaster(disaster)">
+          <div class="disaster-status" [ngClass]="disaster.status.toLowerCase()"></div>
+          <div class="disaster-info">
+            <h3>{{ disaster.name }}</h3>
+            <p>{{ disaster.location }}</p>
+            <div class="disaster-meta">
+              <span class="severity" [ngClass]="disaster.severity.toLowerCase()">{{ disaster.severity }}</span>
+              <span class="date">{{ disaster.date | date:'mediumDate' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map Section -->
+    <div class="map-section">
+      <h2>Disaster Map</h2>
+      <div class="map-container">
+        <!-- This would be replaced with Google Maps integration -->
+        <div class="map-placeholder">
+          <p>Google Maps integration will be added here</p>
+          <p>Showing: {{ selectedDisaster?.name || 'No disaster selected' }}</p>
+          <p *ngIf="selectedDisaster">Location: {{ selectedDisaster.location }}</p>
+          <p *ngIf="selectedDisaster">Coordinates: {{ selectedDisaster.lat }}, {{ selectedDisaster.lng }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resource Status -->
+    <div class="resource-status">
+      <h2>Resource Status</h2>
+      <div class="resource-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Resource</th>
+              <th>Available</th>
+              <th>Allocated</th>
+              <th>Needed</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let resource of resources">
+              <td>{{ resource.type }}</td>
+              <td>{{ resource.available }}</td>
+              <td>{{ resource.allocated }}</td>
+              <td>{{ resource.needed }}</td>
+              <td>
+                <div class="progress-bar">
+                  <div class="progress" [style.width.%]="getResourcePercentage(resource)"></div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alert Section -->
+  <div class="alert-section">
+    <h2>Recent Alerts</h2>
+    <div class="alert critical">
+      <span class="alert-time">10:45 AM</span>
+      <span class="alert-message">Critical: Hurricane Alpha intensified to Category 4</span>
+    </div>
+    <div class="alert high">
+      <span class="alert-time">09:30 AM</span>
+      <span class="alert-message">High: Evacuation required in North Shore area</span>
+    </div>
+    <div class="alert medium">
+      <span class="alert-time">Yesterday</span>
+      <span class="alert-message">Medium: Supply convoy dispatched to Kerala</span>
+    </div>
+  </div>
+</div>

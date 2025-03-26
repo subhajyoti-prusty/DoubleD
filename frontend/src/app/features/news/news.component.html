@@ -1,1 +1,143 @@
-<p>news works!</p>
+<div class="news-container">
+  <h1 class="page-title">Disaster News & Updates</h1>
+  
+  <div class="news-controls">
+    <div class="search-box">
+      <input #searchInput type="text" placeholder="Search news..." [value]="searchTerm" (input)="onSearch(searchInput.value)">
+      <button class="search-btn" aria-label="Search" (click)="onSearch(searchInput.value)">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+    
+    <div class="category-filter">
+      <label for="category">Filter by:</label>
+      <select id="category" #categorySelect (change)="onCategoryChange(categorySelect.value)">
+        <option *ngFor="let category of categories" [value]="category">
+          {{ category }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Data Source Attribution -->
+  <div class="data-source-info" *ngIf="!isLoading && !error && newsArticles.length > 0">
+    <p>
+      <span class="fallback-notice">
+        <i class="fa fa-info-circle"></i> 
+        Using sample disaster news data. In production, this would connect to live news APIs.
+      </span>
+    </p>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading latest disaster news...</p>
+  </div>
+
+  <!-- Error Message -->
+  <div class="error-message" *ngIf="error">
+    <i class="fa fa-exclamation-circle"></i>
+    <p>{{ error }}</p>
+    <button class="retry-btn" (click)="retryFetchNews()">
+      <i class="fa fa-sync-alt"></i> Retry
+    </button>
+  </div>
+
+  <!-- News Articles Grid -->
+  <div class="news-grid" *ngIf="!isLoading && !error">
+    <div class="no-results" *ngIf="filteredArticles.length === 0">
+      <p>No news articles found matching your criteria.</p>
+      <button class="clear-filters-btn" (click)="categoryFilter = null; searchTerm = ''; filterArticles()">
+        Clear Filters
+      </button>
+    </div>
+    
+    <div class="news-card" *ngFor="let article of filteredArticles" (click)="selectArticle(article)">
+      <div class="news-image" [style.background-image]="'url(' + article.image + ')'">
+        <div class="news-category" [ngClass]="article.category?.toLowerCase()">
+          {{ article.category }}
+        </div>
+        <div class="news-relevance" [ngClass]="getRelevanceBadgeClass(article.relevance || 0)">
+          {{ article.relevance }}/10
+        </div>
+      </div>
+      <div class="news-content">
+        <h2 class="news-title">{{ article.title }}</h2>
+        <p class="news-description">{{ article.description }}</p>
+        <div class="news-meta">
+          <span class="news-source">{{ article.source.name }}</span>
+          <span class="news-date">{{ formatDate(article.publishedAt) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Article Detail Modal -->
+  <div class="article-detail-modal" *ngIf="selectedArticle" (click)="closeArticleDetail()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="closeArticleDetail()">
+        <i class="fa fa-times"></i>
+      </button>
+      
+      <div class="article-header">
+        <h2>{{ selectedArticle.title }}</h2>
+        <div class="article-meta">
+          <div class="meta-item">
+            <i class="fa fa-newspaper"></i>
+            <span>{{ selectedArticle.source.name }}</span>
+          </div>
+          <div class="meta-item">
+            <i class="fa fa-calendar"></i>
+            <span>{{ selectedArticle.publishedAt | date:'medium' }}</span>
+          </div>
+          <div class="meta-item" *ngIf="selectedArticle.location">
+            <i class="fa fa-map-marker-alt"></i>
+            <span>{{ selectedArticle.location }}</span>
+          </div>
+        </div>
+        <div class="article-badges">
+          <span class="badge category" [ngClass]="selectedArticle.category?.toLowerCase()">
+            {{ selectedArticle.category }}
+          </span>
+          <span class="badge relevance" [ngClass]="getRelevanceBadgeClass(selectedArticle.relevance || 0)">
+            Severity: {{ selectedArticle.relevance }}/10
+          </span>
+        </div>
+      </div>
+      
+      <div class="article-image" [style.background-image]="'url(' + selectedArticle.image + ')'" alt="Article Image"></div>
+      
+      <div class="article-body">
+        <p class="article-description">{{ selectedArticle.description }}</p>
+        <div class="article-content">
+          <p>{{ selectedArticle.content }}</p>
+        </div>
+      </div>
+      
+      <div class="article-actions">
+        <a [href]="selectedArticle.url" target="_blank" class="btn btn-primary">
+          <i class="fa fa-external-link-alt"></i>
+          Read Full Article
+        </a>
+        <button class="btn btn-secondary">
+          <i class="fa fa-share-alt"></i>
+          Share
+        </button>
+      </div>
+      
+      <div class="related-news">
+        <h3>Related Disaster News</h3>
+        <div class="related-articles">
+          <div class="related-article" *ngFor="let article of newsArticles.slice(0, 3)">
+            <div class="related-image" [style.background-image]="'url(' + article.image + ')'"></div>
+            <div class="related-content">
+              <h4>{{ article.title }}</h4>
+              <span class="related-date">{{ formatDate(article.publishedAt) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
