@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardComponent } from './dashboard.component';
-import { TabViewModule } from 'primeng/tabview';
 
-// Feature Modules
-import { NewsModule } from '@app/features/news/modules/news.module';
-import { VolunteerModule } from '@app/features/volunteer/module/volunteer.module';
-import { AdminModule } from '@app/features/admin/module/admin.module';
+import { DashboardRoutingModule } from './dashboard-routing.module';
+import { DashboardComponent } from './dashboard.component';
+
 
 @NgModule({
   declarations: [
@@ -14,11 +11,7 @@ import { AdminModule } from '@app/features/admin/module/admin.module';
   ],
   imports: [
     CommonModule,
-    TabViewModule,
-    NewsModule,
-    VolunteerModule,
-    AdminModule
-  ],
-  exports: [DashboardComponent]
+    DashboardRoutingModule,
+  ]
 })
 export class DashboardModule { }

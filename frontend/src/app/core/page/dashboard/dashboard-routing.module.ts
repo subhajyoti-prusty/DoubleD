@@ -6,8 +6,10 @@ const routes: Routes = [
   {
     path: '',
     component: DashboardComponent
-  }
+  },
+
 ];
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

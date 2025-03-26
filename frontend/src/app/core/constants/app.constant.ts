@@ -11,3 +11,9 @@ export const AppEnvConfigConstant = {
     APP_BASE_URL: environment.appBaseURL,
     API_BASE_URL: environment.apiBaseURL
 }
+
+export const ContactDetailsConstant = {
+    EMAIL: environment.contactDetails.email,
+    MOBILE: environment.contactDetails.mobile,
+    WEBSITE: environment.contactDetails.website
+}
