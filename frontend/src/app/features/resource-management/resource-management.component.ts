@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -10,12 +11,16 @@ interface Resource {
   status: 'Available' | 'Allocated' | 'In Transit';
   lastUpdated: Date;
 }
+=======
+import { Component } from '@angular/core';
+>>>>>>> c0b01643d8e827ce0af2549620d6cd9a5cd1001c
 
 @Component({
   selector: 'app-resource-management',
   templateUrl: './resource-management.component.html',
   styleUrl: './resource-management.component.scss'
 })
+<<<<<<< HEAD
 export class ResourceManagementComponent implements OnInit {
   resources: Resource[] = [];
   resourceForm!: FormGroup;
@@ -125,4 +130,8 @@ export class ResourceManagementComponent implements OnInit {
   private getNextId(): number {
     return Math.max(...this.resources.map(r => r.id), 0) + 1;
   }
+=======
+export class ResourceManagementComponent {
+
+>>>>>>> c0b01643d8e827ce0af2549620d6cd9a5cd1001c
 }

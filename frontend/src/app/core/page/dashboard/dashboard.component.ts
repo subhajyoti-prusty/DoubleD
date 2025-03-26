@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 
 interface Disaster {
@@ -17,12 +18,16 @@ interface ResourceStatus {
   allocated: number;
   needed: number;
 }
+=======
+import { Component } from '@angular/core';
+>>>>>>> c0b01643d8e827ce0af2549620d6cd9a5cd1001c
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
+<<<<<<< HEAD
 export class DashboardComponent implements OnInit {
   // Since we don't have real APIs yet, using mock data
   disasters: Disaster[] = [];
@@ -78,4 +83,8 @@ export class DashboardComponent implements OnInit {
   selectDisaster(disaster: Disaster) {
     this.selectedDisaster = disaster;
   }
+=======
+export class DashboardComponent {
+
+>>>>>>> c0b01643d8e827ce0af2549620d6cd9a5cd1001c
 }

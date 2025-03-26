@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 
 interface MapMarker {
@@ -10,12 +11,16 @@ interface MapMarker {
   description: string;
   icon?: string;
 }
+=======
+import { Component } from '@angular/core';
+>>>>>>> c0b01643d8e827ce0af2549620d6cd9a5cd1001c
 
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.component.html',
   styleUrl: './maps.component.scss'
 })
+<<<<<<< HEAD
 export class MapsComponent implements OnInit {
   markers: MapMarker[] = [];
   selectedMarkerId: number | null = null;
@@ -112,4 +117,8 @@ export class MapsComponent implements OnInit {
   toggleFilter(filterName: keyof typeof this.mapFilters): void {
     this.mapFilters[filterName] = !this.mapFilters[filterName];
   }
+=======
+export class MapsComponent {
+
+>>>>>>> c0b01643d8e827ce0af2549620d6cd9a5cd1001c
 }

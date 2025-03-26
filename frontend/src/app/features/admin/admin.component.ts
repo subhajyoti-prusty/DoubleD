@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 
 interface UserSummary {
@@ -31,12 +32,16 @@ interface User {
   status: 'Active' | 'Inactive';
   lastLogin: Date;
 }
+=======
+import { Component } from '@angular/core';
+>>>>>>> c0b01643d8e827ce0af2549620d6cd9a5cd1001c
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'
 })
+<<<<<<< HEAD
 export class AdminComponent implements OnInit {
   userSummary: UserSummary = {
     volunteers: 0,
@@ -177,4 +182,8 @@ export class AdminComponent implements OnInit {
       time: new Date()
     });
   }
+=======
+export class AdminComponent {
+
+>>>>>>> c0b01643d8e827ce0af2549620d6cd9a5cd1001c
 }
