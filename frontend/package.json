@@ -26,18 +26,12 @@
     "@angular/compiler": "^18.1.0",
     "@angular/core": "^18.1.0",
     "@angular/forms": "^18.1.0",
-<<<<<<< HEAD
     "@angular/google-maps": "^18.2.14",
-=======
->>>>>>> c0b01643d8e827ce0af2549620d6cd9a5cd1001c
     "@angular/platform-browser": "^18.1.0",
     "@angular/platform-browser-dynamic": "^18.1.0",
     "@angular/platform-server": "^18.1.0",
     "@angular/router": "^18.1.0",
-<<<<<<< HEAD
     "chart.js": "^4.4.8",
-=======
->>>>>>> c0b01643d8e827ce0af2549620d6cd9a5cd1001c
     "express": "^4.18.2",
     "jwt-decode": "^4.0.0",
     "ngx-cookie-service": "^18.0.0",
@@ -68,8 +62,4 @@
     "source-map-explorer": "^2.5.3",
     "typescript": "~5.5.2"
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> c0b01643d8e827ce0af2549620d6cd9a5cd1001c

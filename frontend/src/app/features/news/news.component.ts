@@ -1,16 +1,11 @@
-<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 import { NewsService, NewsArticle } from './news.service';
-=======
-import { Component } from '@angular/core';
->>>>>>> c0b01643d8e827ce0af2549620d6cd9a5cd1001c
 
 @Component({
   selector: 'app-news',
   templateUrl: './news.component.html',
   styleUrl: './news.component.scss'
 })
-<<<<<<< HEAD
 export class NewsComponent implements OnInit {
   newsArticles: NewsArticle[] = [];
   filteredArticles: NewsArticle[] = [];
@@ -137,8 +132,4 @@ export class NewsComponent implements OnInit {
       return date.toLocaleDateString();
     }
   }
-=======
-export class NewsComponent {
-
->>>>>>> c0b01643d8e827ce0af2549620d6cd9a5cd1001c
 }
