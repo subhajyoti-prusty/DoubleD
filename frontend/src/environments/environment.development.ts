@@ -8,6 +8,7 @@ export const environment = {
   portalURL: 'http://localhost:4200/',
   appBaseURL: 'http://localhost:5000/',
   apiBaseURL: 'http://localhost:5000/api',
+
   googleMapsApiKey: 'AIzaSyDyno-VIFWghXhZ5fMMz0Kq09JlfSPLiJA',
   contactDetails: {
     email: 'xyz@gmail.com',
@@ -19,4 +20,7 @@ export const environment = {
 // Old URLs (for reference)
 // portalURL: 'https://dev.neetforall.com/',
 // appBaseURL: 'https://api.neetforall.com/',
-// apiBaseURL: 'https://api.neetforall.com/api',
+// apiBaseURL: 'https://api.neetforall.com/api'
+// portalURL: 'https://app.doubled.com/',
+// appBaseURL: 'https://api.doubled.com/',
+// apiBaseURL: 'https://api.doubled.com/api',

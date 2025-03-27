@@ -105,7 +105,12 @@ socketManager(io);
 mongoose.set('strictQuery', false);
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 10000,
+    socketTimeoutMS: 45000,
+    family: 4, // Force IPv4
+    retryWrites: true,
+    w: 'majority'
 })
 .then(() => {
     console.log("Connected to MongoDB");
@@ -117,6 +122,8 @@ mongoose.connect(process.env.MONGO_URI, {
 })
 .catch((err) => {
     console.error("MongoDB connection error:", err);
+    console.error("Connection string:", process.env.MONGO_URI);
+    console.error("Environment:", process.env.NODE_ENV);
     process.exit(1);
 });
 

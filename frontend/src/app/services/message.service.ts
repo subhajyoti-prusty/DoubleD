@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 export interface Message {
   id: string;
@@ -57,7 +58,7 @@ export class MessageService {
   public currentChannelId$ = this.currentChannelIdSubject.asObservable();
   
   // In a production app, this would be an environment variable
-  private apiUrl = 'api/messages'; // This would be the actual API URL
+  private apiUrl = `${environment.apiBaseURL}/messages`;
   
   // Mock data
   private mockMessages: Message[] = [

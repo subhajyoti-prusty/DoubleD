@@ -246,4 +246,41 @@ const resetPassword = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, loginUser, refreshToken, forgotPassword, resetPassword };
+// User Logout
+const logoutUser = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        
+        // Find user and clear refresh token
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        user.refreshToken = null;
+        await user.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Successfully logged out"
+        });
+    } catch (error) {
+        console.error('Logout error:', error);
+        res.status(500).json({
+            success: false,
+            message: "An error occurred during logout"
+        });
+    }
+};
+
+module.exports = {
+    registerUser,
+    loginUser,
+    refreshToken,
+    logoutUser,
+    forgotPassword,
+    resetPassword
+};

@@ -25,6 +25,8 @@ export interface User {
 export interface AuthResponse {
   token: string;
   user: User;
+  success: boolean;
+  message?: string;
 }
 
 @Injectable({
@@ -54,6 +56,9 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { email, password })
       .pipe(
         map((response: AuthResponse) => {
+          if (!response.success) {
+            throw new Error(response.message || 'Login failed');
+          }
           this.setSession(response);
           this.currentUserSubject.next(response.user);
           return response.user;

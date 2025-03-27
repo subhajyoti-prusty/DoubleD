@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 export interface Resource {
   id: string;
@@ -28,8 +29,7 @@ export class ResourceService {
   private resourcesSubject = new BehaviorSubject<Resource[]>([]);
   public resources$ = this.resourcesSubject.asObservable();
   
-  // In a production app, this would be an environment variable
-  private apiUrl = 'api/resources'; // This would be the actual API URL
+  private apiUrl = `${environment.apiBaseURL}/resources`;
   
   // Mock data
   private mockResources: Resource[] = [

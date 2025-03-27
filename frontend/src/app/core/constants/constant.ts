@@ -16,9 +16,9 @@ export const BASE_API_ENDPOINTS = {
 }
 
 export const WHITE_LIST_URLS = [
-    'api/auth/login',
-    'api/auth/refresh',
-    'api/auth/logout'
+    'auth/login',
+    'auth/refresh-token',
+    'auth/register'
 ];
 
 export const AUTH_API_ENDPOINTS = {

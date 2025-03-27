@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 export interface Disaster {
   id: string;
@@ -40,7 +41,7 @@ export class DisasterService {
   public currentDisasterId$ = this.currentDisasterIdSubject.asObservable();
   
   // In a production app, this would be an environment variable
-  private apiUrl = 'api/disasters'; // This would be the actual API URL
+  private apiUrl = `${environment.apiBaseURL}/disasters`;
   
   // Mock data
   private mockDisasters: Disaster[] = [

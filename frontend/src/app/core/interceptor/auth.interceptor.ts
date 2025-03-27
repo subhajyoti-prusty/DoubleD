@@ -21,8 +21,9 @@ export class AuthInterceptor implements HttpInterceptor {
 
     const isWhitelisted = WHITE_LIST_URLS.some(path => req.url.includes(path));
     const authToken = this.authService.getAuthToken();
+    const isLogoutRequest = req.url.includes('auth/logout');
 
-    if (authToken && !isWhitelisted) {
+    if ((authToken && !isWhitelisted) || isLogoutRequest) {
       const authReq = req.clone({
         setHeaders: {
           Authorization: `Bearer ${authToken}`

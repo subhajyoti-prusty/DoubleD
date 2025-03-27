@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 export interface Volunteer {
   id: string;
@@ -64,8 +65,7 @@ export class VolunteerService {
   private volunteersSubject = new BehaviorSubject<Volunteer[]>([]);
   public volunteers$ = this.volunteersSubject.asObservable();
   
-  // In a production app, this would be an environment variable
-  private apiUrl = 'api/volunteers'; // This would be the actual API URL
+  private apiUrl = `${environment.apiBaseURL}/volunteers`;
   
   // Mock data
   private mockVolunteers: Volunteer[] = [
@@ -222,7 +222,7 @@ export class VolunteerService {
     
     // Real implementation would be:
     /*
-    return this.http.get<Volunteer[]>(`${this.apiUrl}`)
+    return this.http.get<Volunteer[]>(this.apiUrl)
       .pipe(
         tap(volunteers => {
           this.volunteersSubject.next(volunteers);

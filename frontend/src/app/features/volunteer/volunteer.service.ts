@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class VolunteerService {
-  private apiUrl = 'http://localhost:3000/api/volunteers'; // Replace with your actual API URL
+  private apiUrl = `${environment.apiBaseURL}/volunteers`;
 
   constructor(private http: HttpClient) { }
 
