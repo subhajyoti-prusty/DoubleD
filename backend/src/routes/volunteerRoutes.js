@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Volunteer = require('../models/Volunteer');
-const auth = require('../middleware/auth');
-const authorize = require('../middleware/roleAuth');
+const { authenticateUser, authorizeRole } = require('../middleware/authMiddleware');
 
 // Get all volunteers (admin and NGO only)
-router.get('/', auth, authorize(['admin', 'ngo']), async (req, res) => {
+router.get('/', authenticateUser, authorizeRole(['admin', 'ngo']), async (req, res) => {
     try {
         const { location, skills, availability } = req.query;
         let query = {};
@@ -23,7 +22,7 @@ router.get('/', auth, authorize(['admin', 'ngo']), async (req, res) => {
 });
 
 // Get volunteer by ID
-router.get('/:id', auth, async (req, res) => {
+router.get('/:id', authenticateUser, async (req, res) => {
     try {
         const volunteer = await Volunteer.findById(req.params.id);
         if (!volunteer) {
@@ -36,7 +35,7 @@ router.get('/:id', auth, async (req, res) => {
 });
 
 // Create new volunteer (admin only)
-router.post('/', auth, authorize(['admin']), async (req, res) => {
+router.post('/', authenticateUser, authorizeRole(['admin']), async (req, res) => {
     try {
         const volunteer = new Volunteer(req.body);
         await volunteer.save();
@@ -47,7 +46,7 @@ router.post('/', auth, authorize(['admin']), async (req, res) => {
 });
 
 // Update volunteer (admin and self)
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', authenticateUser, async (req, res) => {
     try {
         // Check if user is admin or the volunteer themselves
         if (req.user.role !== 'admin' && req.user.userId !== req.params.id) {
@@ -71,7 +70,7 @@ router.put('/:id', auth, async (req, res) => {
 });
 
 // Delete volunteer (admin only)
-router.delete('/:id', auth, authorize(['admin']), async (req, res) => {
+router.delete('/:id', authenticateUser, authorizeRole(['admin']), async (req, res) => {
     try {
         const volunteer = await Volunteer.findByIdAndDelete(req.params.id);
         if (!volunteer) {
@@ -84,7 +83,7 @@ router.delete('/:id', auth, authorize(['admin']), async (req, res) => {
 });
 
 // Update volunteer availability
-router.patch('/:id/availability', auth, async (req, res) => {
+router.patch('/:id/availability', authenticateUser, async (req, res) => {
     try {
         const { availability } = req.body;
         
@@ -110,7 +109,7 @@ router.patch('/:id/availability', auth, async (req, res) => {
 });
 
 // Update volunteer verification status (admin only)
-router.patch('/:id/verify', auth, authorize(['admin']), async (req, res) => {
+router.patch('/:id/verify', authenticateUser, authorizeRole(['admin']), async (req, res) => {
     try {
         const { verificationStatus } = req.body;
         const volunteer = await Volunteer.findByIdAndUpdate(
@@ -130,7 +129,7 @@ router.patch('/:id/verify', auth, authorize(['admin']), async (req, res) => {
 });
 
 // Get volunteers by location (admin and NGO only)
-router.get('/location/:location', auth, authorize(['admin', 'ngo']), async (req, res) => {
+router.get('/location/:location', authenticateUser, authorizeRole(['admin', 'ngo']), async (req, res) => {
     try {
         const volunteers = await Volunteer.find({ location: req.params.location });
         res.json(volunteers);
@@ -140,7 +139,7 @@ router.get('/location/:location', auth, authorize(['admin', 'ngo']), async (req,
 });
 
 // Get volunteers by skills (admin and NGO only)
-router.get('/skills/:skills', auth, authorize(['admin', 'ngo']), async (req, res) => {
+router.get('/skills/:skills', authenticateUser, authorizeRole(['admin', 'ngo']), async (req, res) => {
     try {
         const skills = req.params.skills.split(',');
         const volunteers = await Volunteer.find({ skills: { $in: skills } });

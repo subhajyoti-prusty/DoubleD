@@ -65,66 +65,97 @@ const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
 
+        // Find user by email
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(401).json({
                 success: false,
-                error: 'Invalid credentials'
+                message: "Invalid credentials"
             });
         }
 
+        // Check password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(401).json({
                 success: false,
-                error: 'Invalid credentials'
+                message: "Invalid credentials"
             });
         }
 
-        const token = generateToken(user);
+        // Generate tokens
+        const { accessToken, refreshToken } = generateTokens(user);
 
-        res.json({
+        // Save refresh token to user
+        user.refreshToken = refreshToken;
+        await user.save();
+
+        res.status(200).json({
             success: true,
-            token,
+            token: accessToken,
+            refreshToken,
             user: {
                 id: user._id,
-                username: user.username,
                 email: user.email,
-                role: user.role
+                name: user.username,
+                role: user.role,
+                skills: user.profile?.skills,
+                organization: user.profile?.organization,
+                location: user.profile?.location,
+                phone: user.profile?.phone,
+                isAvailable: user.profile?.isAvailable
             }
         });
     } catch (error) {
+        console.error('Login error:', error);
         res.status(500).json({
             success: false,
-            error: error.message
+            message: "Error logging in"
         });
     }
 };
 
-exports.refreshToken = async (req, res) => {
+// Refresh Token
+const refreshToken = async (req, res) => {
     try {
         const { refreshToken } = req.body;
         
         if (!refreshToken) {
             return res.status(401).json({
                 success: false,
-                error: 'Refresh token required'
+                message: "Refresh token required"
             });
         }
 
+        // Verify refresh token
         const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-        const user = await User.findById(decoded.id);
         
-        const tokens = generateTokens(user);
+        // Find user
+        const user = await User.findById(decoded.id);
+        if (!user || user.refreshToken !== refreshToken) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid refresh token"
+            });
+        }
 
-        res.json({
+        // Generate new tokens
+        const { accessToken, refreshToken: newRefreshToken } = generateTokens(user);
+
+        // Update refresh token in database
+        user.refreshToken = newRefreshToken;
+        await user.save();
+
+        res.status(200).json({
             success: true,
-            ...tokens
+            token: accessToken,
+            refreshToken: newRefreshToken
         });
     } catch (error) {
+        console.error('Token refresh error:', error);
         res.status(401).json({
             success: false,
-            error: 'Invalid refresh token'
+            message: "Invalid refresh token"
         });
     }
 };
@@ -202,4 +233,4 @@ exports.resetPassword = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, loginUser, refreshToken, forgotPassword, resetPassword };
+module.exports = { registerUser, loginUser, refreshToken };

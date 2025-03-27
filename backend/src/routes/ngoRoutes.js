@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { authorize } = require('../middleware/roleAuth');
+const { authorizeRole } = require('../middleware/authMiddleware');
 const ngoController = require('../controllers/ngoController');
 
-router.post('/resources', authorize('ngo'), ngoController.createResource);
-router.get('/statistics', authorize('ngo'), ngoController.getStatistics);
-router.get('/volunteers', authorize('ngo'), ngoController.getVolunteers);
+router.post('/resources', authorizeRole(['ngo']), ngoController.createResource);
+router.get('/statistics', authorizeRole(['ngo']), ngoController.getStatistics);
+router.get('/volunteers', authorizeRole(['ngo']), ngoController.getVolunteers);
 
 module.exports = router; 

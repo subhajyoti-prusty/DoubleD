@@ -1,14 +1,12 @@
 const express = require("express");
 const { addResource, getResources, updateResource, deleteResource } = require("../controllers/resourceController");
-const { authenticateUser } = require("../middleware/authMiddleware");
+const { authenticateUser, authorizeRole } = require("../middleware/authMiddleware");
 const Resource = require('../models/Resource');
-const auth = require('../middleware/auth');
-const authorize = require('../middleware/roleAuth');
 
 const router = express.Router();
 
 // Get all resources (with filters)
-router.get('/', auth, async (req, res) => {
+router.get('/', authenticateUser, async (req, res) => {
     try {
         const { type, status, location } = req.query;
         let query = {};
@@ -41,7 +39,7 @@ router.get('/', auth, async (req, res) => {
 });
 
 // Get resource by ID
-router.get('/:id', auth, async (req, res) => {
+router.get('/:id', authenticateUser, async (req, res) => {
     try {
         const resource = await Resource.findById(req.params.id)
             .populate('owner', 'username email');
@@ -57,7 +55,7 @@ router.get('/:id', auth, async (req, res) => {
 });
 
 // Create new resource (admin and NGO only)
-router.post('/', auth, authorize(['admin', 'ngo']), async (req, res) => {
+router.post('/', authenticateUser, authorizeRole(['admin', 'ngo']), async (req, res) => {
     try {
         const resource = new Resource({
             ...req.body,
@@ -79,7 +77,7 @@ router.post('/', auth, authorize(['admin', 'ngo']), async (req, res) => {
 });
 
 // Update resource (admin, NGO, and owner only)
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', authenticateUser, async (req, res) => {
     try {
         const resource = await Resource.findById(req.params.id);
         
@@ -111,7 +109,7 @@ router.put('/:id', auth, async (req, res) => {
 });
 
 // Delete resource (admin and owner only)
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', authenticateUser, async (req, res) => {
     try {
         const resource = await Resource.findById(req.params.id);
         
@@ -136,7 +134,7 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 // Update resource status
-router.patch('/:id/status', auth, async (req, res) => {
+router.patch('/:id/status', authenticateUser, async (req, res) => {
     try {
         const { status } = req.body;
         const resource = await Resource.findById(req.params.id);
@@ -168,7 +166,7 @@ router.patch('/:id/status', auth, async (req, res) => {
 });
 
 // Get resources by location
-router.get('/location/:lat/:lng/:radius', auth, async (req, res) => {
+router.get('/location/:lat/:lng/:radius', authenticateUser, async (req, res) => {
     try {
         const { lat, lng, radius } = req.params;
         const resources = await Resource.find({
@@ -192,7 +190,7 @@ router.get('/location/:lat/:lng/:radius', auth, async (req, res) => {
 });
 
 // Get resources by type
-router.get('/type/:type', auth, async (req, res) => {
+router.get('/type/:type', authenticateUser, async (req, res) => {
     try {
         const resources = await Resource.find({ type: req.params.type })
             .populate('owner', 'username email')

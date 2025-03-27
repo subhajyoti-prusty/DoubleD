@@ -82,4 +82,64 @@ const updateAlert = async (req, res) => {
     }
 };
 
-module.exports = { createAlert, setSocketIoInstance, updateAlert };
+// Get all alerts
+const getAlerts = async (req, res) => {
+    try {
+        const alerts = await Alert.find()
+            .populate('createdBy', 'name email')
+            .sort('-createdAt');
+
+        res.json({
+            success: true,
+            count: alerts.length,
+            data: alerts
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+};
+
+// Delete an alert
+const deleteAlert = async (req, res) => {
+    try {
+        const alert = await Alert.findById(req.params.id);
+
+        if (!alert) {
+            return res.status(404).json({
+                success: false,
+                error: 'Alert not found'
+            });
+        }
+
+        // Check if user is authorized to delete the alert
+        if (alert.createdBy.toString() !== req.user.id && req.user.role !== 'admin') {
+            return res.status(403).json({
+                success: false,
+                error: 'Not authorized to delete this alert'
+            });
+        }
+
+        await alert.remove();
+
+        // Notify users about alert deletion
+        const io = req.app.get('io');
+        io.emit('alertDeleted', {
+            alertId: alert._id
+        });
+
+        res.json({
+            success: true,
+            data: {}
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+};
+
+module.exports = { createAlert, setSocketIoInstance, updateAlert, getAlerts, deleteAlert };

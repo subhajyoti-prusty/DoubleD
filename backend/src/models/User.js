@@ -25,6 +25,9 @@ const userSchema = new mongoose.Schema({
         enum: ['volunteer', 'ngo', 'admin'],
         default: 'volunteer'
     },
+    refreshToken: {
+        type: String
+    },
     profile: {
         name: String,
         phone: String,
