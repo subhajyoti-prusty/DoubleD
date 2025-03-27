@@ -32,7 +32,7 @@ export class ApiService {
 
   // Auth endpoints
   login(credentials: { email: string; password: string }): Observable<LoginResponse> {
-    console.log('Login request:', { ...credentials, password: '***' });
+    console.log('Login request to:', `${this.apiUrl}/auth/login`);
     return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, credentials).pipe(
       map(response => {
         console.log('Login response:', response);
@@ -48,7 +48,7 @@ export class ApiService {
         
         if (error.error instanceof ErrorEvent) {
           // Client-side error
-          errorMessage = error.error.message;
+          errorMessage = 'Unable to connect to the server. Please check your internet connection.';
         } else {
           // Server-side error
           errorMessage = error.error?.message || errorMessage;

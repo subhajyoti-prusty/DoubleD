@@ -98,34 +98,32 @@ const loginUser = async (req, res) => {
         // Generate tokens
         const { accessToken, refreshToken } = generateTokens(user);
 
-        // Save refresh token to user
+        // Update user's refresh token
         user.refreshToken = refreshToken;
         await user.save();
 
-        console.log('Login successful for user:', email);
-
+        // Return success response
         res.status(200).json({
             success: true,
             token: accessToken,
-            refreshToken,
+            refreshToken: refreshToken,
             user: {
                 id: user._id,
                 email: user.email,
                 name: user.username,
                 role: user.role,
-                skills: user.profile?.skills,
-                organization: user.profile?.organization,
-                location: user.profile?.location,
-                phone: user.profile?.phone,
-                isAvailable: user.profile?.isAvailable
+                skills: user.profile?.skills || [],
+                organization: user.profile?.organization || '',
+                location: user.profile?.address || '',
+                phone: user.profile?.phone || '',
+                isAvailable: user.profile?.availability || false
             }
         });
     } catch (error) {
         console.error('Login error:', error);
         res.status(500).json({
             success: false,
-            message: "Error logging in",
-            error: error.message
+            message: "An error occurred during login"
         });
     }
 };

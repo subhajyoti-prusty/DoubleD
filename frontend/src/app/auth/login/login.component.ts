@@ -45,8 +45,15 @@ export class LoginComponent {
         ...this.loginForm.value,
         email: this.loginForm.value.email.toLowerCase()
       };
-      await this.authService.login(credentials);
-      this.router.navigate(['/dashboard']);
+      const response = await this.authService.login(credentials);
+      console.log('Login successful:', response);
+      if (response && response.success) {
+        // Force a small delay to ensure localStorage is updated
+        await new Promise(resolve => setTimeout(resolve, 100));
+        await this.router.navigate(['/dashboard']);
+      } else {
+        this.toastService.showErrorToast('Login failed. Please try again.');
+      }
     } catch (error) {
       console.error('Login error:', error);
       this.toastService.showErrorToast('Invalid email or password');

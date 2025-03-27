@@ -37,9 +37,11 @@ export class ErrorInterceptor implements HttpInterceptor {
 
   showErrorMessage(err: any) {
     if (err?.error?.message) {
-      this.toastService.showErrorToast(`${err.error.status_code}: ${err.error.status}\n${err.error.message}\n${err.url}`)
+      this.toastService.showErrorToast(err.error.message);
+    } else if (err?.message) {
+      this.toastService.showErrorToast(err.message);
     } else {
-      this.toastService.showErrorToast(`${err.status_code}: ${err.status}\n${err.message}\n${err.url}`)
+      this.toastService.showErrorToast('An error occurred. Please try again.');
     }
   }
 }
