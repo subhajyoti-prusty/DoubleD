@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingSpinnerService } from '../../core/service/loading-spinner.service';
-import { AuthenticationService } from '../service/authentication.service';
-import { ILoginModel } from '../interface/login.interface';
+import { AuthService } from '../../core/service/auth.service';
 import { ToastService } from '../../core/service/toast.service';
 
 @Component({
@@ -12,12 +11,11 @@ import { ToastService } from '../../core/service/toast.service';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-
   loginForm!: FormGroup;
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly authenticationService: AuthenticationService,
+    private readonly authService: AuthService,
     private readonly toastService: ToastService,
     private readonly loadingService: LoadingSpinnerService,
     private readonly router: Router 
@@ -29,35 +27,35 @@ export class LoginComponent {
 
   createForm() {
     this.loginForm = this.fb.group({
-      userName: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
   }
 
-  onLoginFormSubmitted(e: Event) {
+  async onLoginFormSubmitted(e: Event) {
     e.preventDefault();
     if (!this.loginForm.valid) {
-      this.toastService.showErrorToast(`Please enter User ID and Password`);
-    } else {
-      this.loadingService.show();
-      this.authenticateUser();
+      this.toastService.showErrorToast('Please enter valid email and password');
+      return;
     }
-  }
 
-  authenticateUser() {
-    const credentials: ILoginModel = this.loginForm.value;
-    this.authenticationService.login(credentials).subscribe({
-      next: (resp) => {
-        this.loadingService.hide();
-      },
-      error: (err) => {
-        this.loadingService.hide();
-      }
-    });
+    try {
+      this.loadingService.show();
+      const credentials = {
+        ...this.loginForm.value,
+        email: this.loginForm.value.email.toLowerCase()
+      };
+      await this.authService.login(credentials);
+      this.router.navigate(['/dashboard']);
+    } catch (error) {
+      console.error('Login error:', error);
+      this.toastService.showErrorToast('Invalid email or password');
+    } finally {
+      this.loadingService.hide();
+    }
   }
 
   redirectToForgotPassword() {
     this.router.navigate(['/forgot-password']);
   }
-  
 }

@@ -1,7 +1,7 @@
 import { IUserProfile } from "../../core/interface/auth/user-profile.interface";
 
 export interface ILoginModel {
-    userName: string;
+    email: string;
     password: string;
 }
 
@@ -13,11 +13,19 @@ export interface ILoginResponse {
 }
 
 export interface ILoginSuccess {
-    id_token: string
-    expires_in: number
-    refresh_token: string
-    refresh_expires_in: number,
-    expires_at: number,
-    refresh_expires_at: number,
-    userInfo: IUserProfile
+    success: boolean;
+    token: string;
+    refreshToken: string;
+    user: {
+        id: string;
+        email: string;
+        name: string;
+        role: string;
+        skills?: string[];
+        organization?: string;
+        location?: string;
+        phone?: string;
+        isAvailable?: boolean;
+    };
+    message?: string;
 }

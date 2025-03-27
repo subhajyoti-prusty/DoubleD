@@ -64,19 +64,31 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
+        console.log('Login attempt for email:', email);
 
         // Find user by email
         const user = await User.findOne({ email });
         if (!user) {
+            console.log('User not found for email:', email);
             return res.status(401).json({
                 success: false,
                 message: "Invalid credentials"
             });
         }
 
+        console.log('User found:', {
+            id: user._id,
+            email: user.email,
+            username: user.username,
+            role: user.role
+        });
+
         // Check password
         const isMatch = await bcrypt.compare(password, user.password);
+        console.log('Password match:', isMatch);
+
         if (!isMatch) {
+            console.log('Invalid password for user:', email);
             return res.status(401).json({
                 success: false,
                 message: "Invalid credentials"
@@ -89,6 +101,8 @@ const loginUser = async (req, res) => {
         // Save refresh token to user
         user.refreshToken = refreshToken;
         await user.save();
+
+        console.log('Login successful for user:', email);
 
         res.status(200).json({
             success: true,
@@ -110,7 +124,8 @@ const loginUser = async (req, res) => {
         console.error('Login error:', error);
         res.status(500).json({
             success: false,
-            message: "Error logging in"
+            message: "Error logging in",
+            error: error.message
         });
     }
 };
@@ -160,7 +175,7 @@ const refreshToken = async (req, res) => {
     }
 };
 
-exports.forgotPassword = async (req, res) => {
+const forgotPassword = async (req, res) => {
     try {
         const { email } = req.body;
         const user = await User.findOne({ email });
@@ -195,7 +210,7 @@ exports.forgotPassword = async (req, res) => {
     }
 };
 
-exports.resetPassword = async (req, res) => {
+const resetPassword = async (req, res) => {
     try {
         const { token, newPassword } = req.body;
         
@@ -233,4 +248,4 @@ exports.resetPassword = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, loginUser, refreshToken };
+module.exports = { registerUser, loginUser, refreshToken, forgotPassword, resetPassword };

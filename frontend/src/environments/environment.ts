@@ -15,3 +15,12 @@ export const environment = {
     website: 'xyz.com'
   }
 };
+// portalURL: 'https://dev.neetforall.com/',
+// appBaseURL: 'https://api.neetforall.com/',
+// apiBaseURL: 'https://api.neetforall.com/api',
+// googleMapsApiKey: 'AIzaSyDyno-VIFWghXhZ5fMMz0Kq09JlfSPLiJA', // Add this line
+//   contactDetails: {
+//       email: 'xyz@gmail.com',
+//       mobile: '+91 0123456789',
+//       website: 'xyz.com'
+//   }
